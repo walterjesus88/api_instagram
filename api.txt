@@ -22,7 +22,7 @@ curl 'https://i.instagram.com/api/v1/media/2904837504535635532/info/' \
 ----------------------------------------------------------------------------------
 
 import requests
-
+# alessa 468542719
 cookies = {
     'ig_did': '54F3A24D-F9D6-42F2-804C-C57CA9480925',
     'ig_nrcb': '1',

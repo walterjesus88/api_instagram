@@ -19,7 +19,7 @@ from datetime import datetime
 # headers = os.environ('HEADERS')
 
 
-from cc import HEADERS,COOKIES
+from cookies import HEADERS,COOKIES
 
 cookies=COOKIES
 headers=HEADERS
@@ -46,46 +46,28 @@ comentarios =[]
 
 try:
     response = requests.get('https://i.instagram.com/api/v1/users/web_profile_info/', params=params, cookies=cookies, headers=headers)
+    #print(response)
+    res = response.json()
+    nodes = res['data']['user']['edge_owner_to_timeline_media']['edges']
+    paging = res['data']['user']['edge_owner_to_timeline_media']['page_info']['end_cursor']
+    biography = res['data']['user']['biography']
+    seguidos = res['data']['user']['edge_follow']['count']
+    seguidores = res['data']['user']['edge_followed_by']['count']
+    publicaciones= res['data']['user']['edge_owner_to_timeline_media']['count']
+    fbid=res['data']['user']['fbid']
+    id=res['data']['user']['id']
+    cantidad_reels=res['data']['user']['highlight_reel_count']
+    full_name=res['data']['user']['full_name']
+    username=res['data']['user']['username']
 except requests.exceptions.RequestException as e:  # This is the correct syntax
     #raise SystemExit(e)
     print(e)
-
-res = response.json()
-nodes = res['data']['user']['edge_owner_to_timeline_media']['edges']
-paging = res['data']['user']['edge_owner_to_timeline_media']['page_info']['end_cursor']
-biography = res['data']['user']['biography']
-seguidos = res['data']['user']['edge_follow']['count']
-seguidores = res['data']['user']['edge_followed_by']['count']
-publicaciones= res['data']['user']['edge_owner_to_timeline_media']['count']
-fbid=res['data']['user']['fbid']
-id=res['data']['user']['id']
-cantidad_reels=res['data']['user']['highlight_reel_count']
-full_name=res['data']['user']['full_name']
-username=res['data']['user']['username']
-print('ddd')
-# print(biography)
-# print(seguidos)
-# print(seguidores)
-# print(publicaciones)
-# print(fbid)
-# print(id)
-# print(cantidad_reels)
-# print(full_name)
-# print(username)
-# print(paging)
-#print(nodes)
-
-# for n in nodes:
-#     print(n['node']['edge_media_to_caption'])
-#     print(n['node']['id'])
-
-
 
 params = {
     "query_hash": "69cba40317214236af40e7efa697781d",
     "variables": '{"id":"'+id+'", "first":12,"after":"" }'
 }
-#print(params)
+
 
 def detalle_carrousel(carrousel):
     for car in carrousel:
@@ -94,12 +76,34 @@ def detalle_carrousel(carrousel):
         #comentarios.append({"carousel_id":car['id'], "url_carrousel":car['image_versions2']['candidates'][0]['url']})
 
 def detalle_comentario(cc):
+
     for comment in cc:     
         #print(ccc['comments']) 
         url = 'https://www.instagram.com/p/'+comment['code']+'/'
         #ts = df_comments['created'].apply(int)
-        created= datetime.utcfromtimestamp(comment['caption']['created_at']).strftime('%Y-%m-%d %H:%M:%S')
-        created_at_utc= datetime.utcfromtimestamp(comment['caption']['created_at_utc']).strftime('%Y-%m-%d %H:%M:%S')
+        
+        if 'caption' in comment:
+           
+            #print(comment)
+            if not comment['caption'] == None:
+                if 'created_at' in comment['caption']:
+                    created= datetime.utcfromtimestamp(comment['caption']['created_at']).strftime('%Y-%m-%d %H:%M:%S')
+          
+                    
+                if 'created_at_utc' in comment['caption']:
+                    created_at_utc= datetime.utcfromtimestamp(comment['caption']['created_at_utc']).strftime('%Y-%m-%d %H:%M:%S')
+
+
+                if 'text' in comment['caption']:
+                    text = comment['caption']['text']
+
+                if  'content_type' in comment['caption']:
+                    content_type = comment['caption']['content_type']
+            else:
+                created=0
+                created_at_utc=0
+                text=''
+                content_type=''                
     
         if 'carousel_media_count' in comment:
             carousel_media_count=comment['carousel_media_count']
@@ -122,72 +126,75 @@ def detalle_comentario(cc):
             comment_count=0
 
         comments = {"pk_comment":comment['pk'],
-        "text":comment['caption']['text'],
+        "text": text,
         "created":created,
         "created_at_utc":created_at_utc,
-        "content_type":comment['caption']['content_type'],
+        "content_type":content_type,
         "codex":url,"code_id":comment['id'],"like_count":comment['like_count'],
         "comment_count":comment_count,"carousel_media_count":carousel_media_count,
         "view_count":view_count,"video_duration":video_duration
         }
     return comments
 
-def nodes(a):
-    nodes = a['data']['user']['edge_owner_to_timeline_media']['edges']
-    for n in nodes:
-        #print('edge_media_to_caption',n['node']['edge_media_to_caption'])
-        #print(n['node']['id'])
-        #print(n['node']['accessibility_caption'])
-        comment_detail = requests.get('https://i.instagram.com/api/v1/media/'+n['node']['id']+'/info/', cookies=cookies, headers=headers)
-        #print(comment_detail.json())
+def detalle_post(node_id):
+    try:
+        comment_detail = requests.get('https://i.instagram.com/api/v1/media/'+node_id+'/info/', cookies=cookies, headers=headers)
+        r.raise_for_status()
+        print(comment_detail)
         c = comment_detail.json()
         cc= c['items']
         if cc:
             detalle = detalle_comentario(cc)
         comentarios.append(detalle)#,"edge_media_to_caption":n['node']['edge_media_to_caption']})
+    except requests.exceptions.RequestException as e:
+        print(e)
+        print('Estas limitado por instagram')
 
+def nodes(a):
+    nodes = a['data']['user']['edge_owner_to_timeline_media']['edges']
+    for n in nodes:
+        detalle_post(n['node']['id'])
 
 try:
     r = requests.get('https://www.instagram.com/graphql/query/', params=params, cookies=cookies, headers=headers)
     r.raise_for_status()
     a=r.json()
     nodes(a)
+
 except requests.exceptions.RequestException as e:  # This is the correct syntax
-    #raise SystemExit(e)
+  
     print(e)
 
 a= r.json()
 print('_______________________________________________________________________________________________')
 
-# alessa 468542719
 after = a['data']['user']['edge_owner_to_timeline_media']['page_info']['end_cursor']
 params2 = {"query_hash": "69cba40317214236af40e7efa697781d", "variables": '{"id":"'+id+'", "first":12,"after":"'+after+'"}',}
- 
-#print(params2)
 
+# p=0
+# while(True):       
 
-p=0
-while(True):       
+#     try:
+#         r = requests.get('https://www.instagram.com/graphql/query/', params=params2, cookies=cookies, headers=headers)
+#         r.raise_for_status()
+#         p=p+1
+#         print(p)
+#         a=r.json()
+#         nodes(a)
 
-    try:
-        r = requests.get('https://www.instagram.com/graphql/query/', params=params2, cookies=cookies, headers=headers)
-        #r.raise_for_status()
-        p=p+1
-        print(p)
-        a=r.json()
-        nodes(a)
-
-        after = a['data']['user']['edge_owner_to_timeline_media']['page_info']['end_cursor']
-        params2 = {"query_hash": "69cba40317214236af40e7efa697781d", "variables": '{"id":"'+id+'", "first":12,"after":"'+after+'"}',}
+#         after = a['data']['user']['edge_owner_to_timeline_media']['page_info']['end_cursor']
+#         params2 = {"query_hash": "69cba40317214236af40e7efa697781d", "variables": '{"id":"'+id+'", "first":12,"after":"'+after+'"}',}
         
-        if after=="":
-            break
-        #nodes = a['data']['user']['edge_owner_to_timeline_media']['edges']
+#         if after=="":
+#             break
+#         if p == 2:
+#             break
+#         #nodes = a['data']['user']['edge_owner_to_timeline_media']['edges']
     
-    except requests.exceptions.RequestException as e:  # This is the correct syntax
-        print(e)
-        break
+#     except requests.exceptions.RequestException as e:  # This is the correct syntax
+#         print(e)
+#         break
 
 df_comments = pd.DataFrame(comentarios)
-df_comments.to_csv(cuenta+'.csv', index=False, encoding="utf-8")
+df_comments.to_excel(cuenta+'.xlsx', index=False, encoding="ISO-8859-1")
  

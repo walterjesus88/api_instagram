@@ -1,0 +1,36 @@
+COOKIES = {
+    'mid': 'YsofMgALAAEnt43MZh3iM6azyhEV',
+    'ig_did': '61383E85-D5D4-43B6-8812-9FC9097795B7',
+    'ig_nrcb': '1',
+    'fbm_124024574287414': 'base_domain=.instagram.com',
+    'datr': 'Yx_KYgphpd49dqqlMDJrsqb4',
+    'csrftoken': '4dLHQbbsLHhmZG6YhfJSbzWVzVuqMBKE',
+    'ds_user_id': '55341638477',
+    'shbid': '"4317\\05455341638477\\0541696357487:01f7fe009b4dc509fcb9a563365298960a217477363eac526202a55c9d6f086c1a94280e"',
+    'shbts': '"1664821487\\05455341638477\\0541696357487:01f7ec3ef3daf6f55bb933b82542c0a2d6e9320a44a952ad4a6fca89e36ecf990bc5ce8d"',
+    'fbsr_124024574287414': 's0hv8r4emUsFgppp4bO7qKpbS6eT12qiDelU1HoVt3s.eyJ1c2VyX2lkIjoiMTAwMDAwNTcwMjA1MzAwIiwiY29kZSI6IkFRQlM2eDdCTDFmMjRCN1ZzR2VOMzlGSWpOejdvMVIwb2JpcnhPYmt4bGhpME5qYzU2a1k0SVhOMEk5cW10Vm9JeUZTSnhCQU9aWUpIMDgxVlI3bEFoc3hWOE9FT25vcDNwQ1pGZEN5aTRGTzR1SDFhRWtaZWZyb2NvbmMzN1pGWENGdXJBS0NKMjJVRUgxak8tMGtiMDRGQURlS0tDSUppcTEwUm5aOVZYLTNtZFdqc2Y2N2xVa1BValNYbUFqRHFRTW5LNkxsZlJxUUljeER6MTRqS19EYVUyRkJ5RFZneGpRRHlicFZzb1RTZnRNZGhmU0RXNFZ1MzJCaXRmQ2JDMm8xRWlEN2xLY19OWk5KeG56c2dfUjEyei1TOGNjRWxGUTEwRk5zNXUwU2g1OERSazIxb3ZPakIxNFhjUUNJU0NkQnRJVmx5M2wtWUsxZjhEZ1lnZUR1eVVOV3hmUWJjMjF0ZUFiYXJqRGt2ZyIsIm9hdXRoX3Rva2VuIjoiRUFBQnd6TGl4bmpZQkFJNXE4NTF0MVlGOGw5NDFwaTdSVzI4eEpqeXdWMzBPbkZqSkhZV2o1YXpScm1PYTVYSVJLRGRtWkFkeEtteVBoUVpDVk9kT2RXTEhrNVhGNHdkaVA3WkJkazVFczJaQjZqaTM2V3Y3MWlmMldUc2hmeHZIWkNNR0UyY2xETVpCZHNQRW81UWs2bzc4YTdhWkNLQlltY0swSXdiOEdSUDJDUVZiRzd6dWN6QTcwQUxVZVd3MlBvWkQiLCJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImlzc3VlZF9hdCI6MTY2NDk4NzY5N30',
+    'sessionid': '55341638477%3ANjQWNmSid5FqQH%3A14%3AAYcPV7C7zxRJsWQeiYpRmf7mCes0ggEneDRvdlu7Ew',
+    'rur': '"NAO\\05455341638477\\0541696523851:01f702f7e5ee90c5091c0f063f2a54827788c0e80bf48913f34c20731787bee70dea239f"',
+}
+
+HEADERS = {
+    'authority': 'i.instagram.com',
+    'accept': '*/*',
+    'accept-language': 'es,es-ES;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
+    # Requests sorts cookies= alphabetically
+    # 'cookie': 'mid=YsofMgALAAEnt43MZh3iM6azyhEV; ig_did=61383E85-D5D4-43B6-8812-9FC9097795B7; ig_nrcb=1; fbm_124024574287414=base_domain=.instagram.com; datr=Yx_KYgphpd49dqqlMDJrsqb4; csrftoken=4dLHQbbsLHhmZG6YhfJSbzWVzVuqMBKE; ds_user_id=55341638477; shbid="4317\\05455341638477\\0541696357487:01f7fe009b4dc509fcb9a563365298960a217477363eac526202a55c9d6f086c1a94280e"; shbts="1664821487\\05455341638477\\0541696357487:01f7ec3ef3daf6f55bb933b82542c0a2d6e9320a44a952ad4a6fca89e36ecf990bc5ce8d"; fbsr_124024574287414=s0hv8r4emUsFgppp4bO7qKpbS6eT12qiDelU1HoVt3s.eyJ1c2VyX2lkIjoiMTAwMDAwNTcwMjA1MzAwIiwiY29kZSI6IkFRQlM2eDdCTDFmMjRCN1ZzR2VOMzlGSWpOejdvMVIwb2JpcnhPYmt4bGhpME5qYzU2a1k0SVhOMEk5cW10Vm9JeUZTSnhCQU9aWUpIMDgxVlI3bEFoc3hWOE9FT25vcDNwQ1pGZEN5aTRGTzR1SDFhRWtaZWZyb2NvbmMzN1pGWENGdXJBS0NKMjJVRUgxak8tMGtiMDRGQURlS0tDSUppcTEwUm5aOVZYLTNtZFdqc2Y2N2xVa1BValNYbUFqRHFRTW5LNkxsZlJxUUljeER6MTRqS19EYVUyRkJ5RFZneGpRRHlicFZzb1RTZnRNZGhmU0RXNFZ1MzJCaXRmQ2JDMm8xRWlEN2xLY19OWk5KeG56c2dfUjEyei1TOGNjRWxGUTEwRk5zNXUwU2g1OERSazIxb3ZPakIxNFhjUUNJU0NkQnRJVmx5M2wtWUsxZjhEZ1lnZUR1eVVOV3hmUWJjMjF0ZUFiYXJqRGt2ZyIsIm9hdXRoX3Rva2VuIjoiRUFBQnd6TGl4bmpZQkFJNXE4NTF0MVlGOGw5NDFwaTdSVzI4eEpqeXdWMzBPbkZqSkhZV2o1YXpScm1PYTVYSVJLRGRtWkFkeEtteVBoUVpDVk9kT2RXTEhrNVhGNHdkaVA3WkJkazVFczJaQjZqaTM2V3Y3MWlmMldUc2hmeHZIWkNNR0UyY2xETVpCZHNQRW81UWs2bzc4YTdhWkNLQlltY0swSXdiOEdSUDJDUVZiRzd6dWN6QTcwQUxVZVd3MlBvWkQiLCJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImlzc3VlZF9hdCI6MTY2NDk4NzY5N30; sessionid=55341638477%3ANjQWNmSid5FqQH%3A14%3AAYcPV7C7zxRJsWQeiYpRmf7mCes0ggEneDRvdlu7Ew; rur="NAO\\05455341638477\\0541696523851:01f702f7e5ee90c5091c0f063f2a54827788c0e80bf48913f34c20731787bee70dea239f"',
+    'origin': 'https://www.instagram.com',
+    'referer': 'https://www.instagram.com/',
+    'sec-ch-ua': '"Microsoft Edge";v="105", "Not)A;Brand";v="8", "Chromium";v="105"',
+    'sec-ch-ua-mobile': '?0',
+    'sec-ch-ua-platform': '"Windows"',
+    'sec-fetch-dest': 'empty',
+    'sec-fetch-mode': 'cors',
+    'sec-fetch-site': 'same-site',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36 Edg/105.0.1343.53',
+    'x-asbd-id': '198387',
+    'x-csrftoken': '4dLHQbbsLHhmZG6YhfJSbzWVzVuqMBKE',
+    'x-ig-app-id': '936619743392459',
+    'x-ig-www-claim': 'hmac.AR14SM_YFSfntoD9wGY5n9rUK0dK4kTyVFTyeHtNZ2E-Kb3r',
+    'x-instagram-ajax': '1006329955',
+}
