@@ -6,35 +6,15 @@ import pandas as pd
 from datetime import datetime
 
 
-# from dotenv import load_dotenv
-
-# load_dotenv(verbose=True)
-
-# # OR, explicitly providing path to '.env'
-# from pathlib import Path  # Python 3.6+ only
-# env_path = Path('.') / '.env'
-# load_dotenv(dotenv_path=env_path)
-
-# cookies = os.environ('COOKIES')
-# headers = os.environ('HEADERS')
-
-
 from cookies import HEADERS,COOKIES
 
 cookies=COOKIES
 headers=HEADERS
 
-print(HEADERS)
-# url= 'https://i.instagram.com/api/v1/media/2904837504535635532/info/'
-# request = requests.get(url).json()
+class api_instagram:
+    def __init__(self):
+        #self.cliente = cliente
 
-# response = requests.get('https://i.instagram.com/api/v1/media/2904837504535635532/info/', cookies=cookies, headers=headers)
-# print(response.json())
-
-# params = {
-#     'count': '12',
-#     'max_id': '2701879302770021549_468542719',
-# }
 
 # response = requests.get('https://i.instagram.com/api/v1/feed/user/468542719/', params=params, cookies=cookies, headers=headers)
 cuenta = str(input("Ingrese el nombre de la cuenta:  "))
