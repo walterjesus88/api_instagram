@@ -10,46 +10,29 @@ headers=HEADERS
 data=[]
 
 class api_instagram:
-    def __init__(self,cuenta,id):
-        self.cuenta = cuenta
-        self.id = id
+    def __init__(self,cuenta):
+        self.cuenta = cuenta        
 
     def user_profile(self):
         # response = requests.get('https://i.instagram.com/api/v1/feed/user/468542719/', params=params, cookies=cookies, headers=headers)
-        print('estoy n profile')
-        print(self.cuenta)
-        print('estoy n profile')
-    
+     
         params = {
             'username': self.cuenta,
         }
         comentarios =[]
-
         try:
             response = requests.get('https://i.instagram.com/api/v1/users/web_profile_info/', params=params, cookies=cookies, headers=headers)
             res = response.json()
-            nodes = res['data']['user']['edge_owner_to_timeline_media']['edges']
-            paging = res['data']['user']['edge_owner_to_timeline_media']['page_info']['end_cursor']
-            biography = res['data']['user']['biography']
-            seguidos = res['data']['user']['edge_follow']['count']
-            seguidores = res['data']['user']['edge_followed_by']['count']
-            publicaciones= res['data']['user']['edge_owner_to_timeline_media']['count']
-            fbid=res['data']['user']['fbid']
-            self.id=res['data']['user']['id']
-            cantidad_reels=res['data']['user']['highlight_reel_count']
-            full_name=res['data']['user']['full_name']
-            username=res['data']['user']['username']
+            self.id=res['data']['user']['id']            
+            params = {
+                "query_hash": "69cba40317214236af40e7efa697781d",
+                "variables": '{"id":"'+self.id+'", "first":12,"after":"" }'
+            }
+            self.params=params      
+
         except requests.exceptions.RequestException as e:  # This is the correct syntax
-            #raise SystemExit(e)
             print(e)
-
-        params = {
-            "query_hash": "69cba40317214236af40e7efa697781d",
-            "variables": '{"id":"'+self.id+'", "first":12,"after":"" }'
-        }
-
-        self.params=params      
-        #return params
+        return response
 
 
     # def detalle_carrousel(self,carrousel):
@@ -61,11 +44,11 @@ class api_instagram:
     def detalle_comentario(self,items):
         
         for comment in items:     
-            #print(ccc['comments']) 
+
             url = 'https://www.instagram.com/p/'+comment['code']+'/'
-            #ts = df_comments['created'].apply(int)            
+              
             if 'caption' in comment:               
-                #print(comment)
+
                 if not comment['caption'] == None:
                     if 'created_at' in comment['caption']:
                         created= datetime.utcfromtimestamp(comment['caption']['created_at']).strftime('%Y-%m-%d %H:%M:%S')
@@ -105,10 +88,7 @@ class api_instagram:
                 comment_count=0
 
             comments = {"pk_comment":comment['pk'],
-            "text": text,
-            "created":created,
-            "created_at_utc":created_at_utc,
-            "content_type":content_type,
+            "text": text,"created":created,"created_at_utc":created_at_utc,"content_type":content_type,
             "codex":url,"code_id":comment['id'],"like_count":comment['like_count'],
             "comment_count":comment_count,"carousel_media_count":carousel_media_count,
             "view_count":view_count,"video_duration":video_duration
@@ -139,25 +119,33 @@ class api_instagram:
         for n in nodes:        
             self.detalle_post(n['node']['id'])
 
+    
+    def query_post(self,params):
+        try:
+            response = requests.get('https://www.instagram.com/graphql/query/', params=params, cookies=cookies, headers=headers)
+            response.raise_for_status()         
+        except requests.exceptions.RequestException as e:
+            print(e)        
+        return response
+
     def data_extract(self):
         p=0
-        params=self.params
-        print('paramssssss')
-        print(params)
+        params=self.params       
         while(True):
             try:
-                r = requests.get('https://www.instagram.com/graphql/query/', params=params, cookies=cookies, headers=headers)
-                r.raise_for_status()
+                #r = requests.get('https://www.instagram.com/graphql/query/', params=params, cookies=cookies, headers=headers)
+                #r.raise_for_status()
                 p=p+1
-                a=r.json()
+                r=self.query_post(params)
+                a=r.json()                
                 self.nodes(a)
                 after = a['data']['user']['edge_owner_to_timeline_media']['page_info']['end_cursor']
                 params = {"query_hash": "69cba40317214236af40e7efa697781d", "variables": '{"id":"'+self.id+'", "first":12,"after":"'+after+'"}',}
                 
-                if after=="":
+                if after=="" or p == 4:
                     break
-                if p == 3:
-                    break            
+                #if p == 4:
+                    #break            
             except requests.exceptions.RequestException as e:  # This is the correct syntax
                 print(e)
                 break
@@ -168,7 +156,7 @@ if __name__ == "__main__":
     print("File one executed when ran directly")
     cuenta = str(input("Ingrese el nombre de la cuenta:  "))
 
-    dat =api_instagram(cuenta,12)
+    dat =api_instagram(cuenta)
     dat.user_profile()
     dat.data_extract()  
 
